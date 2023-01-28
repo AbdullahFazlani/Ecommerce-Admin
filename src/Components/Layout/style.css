@@ -1,0 +1,22 @@
+.content-con {
+  margin-left: 250px;
+}
+
+.content-con-min {
+  margin-left: 100px;
+}
+.smooth-transition {
+  transition: all 0.6s ease;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .content-con {
+    margin-left: 200px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .content-con {
+    margin-left: 0px;
+  }
+}
