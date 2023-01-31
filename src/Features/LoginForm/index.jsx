@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EmailOutlined, Lock } from "@mui/icons-material";
 import {
   Button,
@@ -10,9 +10,19 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import { PostLoginData } from "../../Api/LoginApi";
+import Api from "../../Api/Api";
 
 const LoginForm = () => {
   const [isProgress, setIsProgress] = useState(false);
+
+  const {
+    mutate: loginMutate,
+    isLoading: postLoginIsLoading,
+    isError: postLoginIsError,
+    data: postLoginRes,
+    error: postLoginErr,
+  } = PostLoginData();
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +38,13 @@ const LoginForm = () => {
         email: values.email,
         password: values.password,
       };
+      loginMutate(loginData);
+      console.log(loginData);
+    },
+  });
+
+  useEffect(() => {
+    if (postLoginRes) {
       Swal.fire({
         title: "Success",
         text: "Logged In Successfully",
@@ -36,9 +53,18 @@ const LoginForm = () => {
       }).then(function () {
         console.log("success");
       });
-      console.log(loginData);
-    },
-  });
+    }
+    if (postLoginIsError) {
+      Swal.fire({
+        title: "Error",
+        text: postLoginErr,
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(function () {
+        console.log("error");
+      });
+    }
+  }, [postLoginRes, postLoginIsError, postLoginErr]);
 
   return (
     <Box component="form" noValidate onSubmit={formik.handleSubmit}>
