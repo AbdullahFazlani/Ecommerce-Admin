@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EmailOutlined, Lock } from "@mui/icons-material";
 import {
   Button,
@@ -10,9 +10,21 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import { PostLoginData } from "../../Api/LoginApi";
+import Api from "../../Api/Api";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [isProgress, setIsProgress] = useState(false);
+  const navigate = useNavigate();
+
+  const {
+    mutate: loginMutate,
+    isLoading: postLoginIsLoading,
+    isError: postLoginIsError,
+    data: postLoginRes,
+    error: postLoginErr,
+  } = PostLoginData();
 
   const formik = useFormik({
     initialValues: {
@@ -28,17 +40,35 @@ const LoginForm = () => {
         email: values.email,
         password: values.password,
       };
+      loginMutate(loginData);
+      console.log(loginData);
+    },
+  });
+
+  useEffect(() => {
+    if (postLoginRes) {
       Swal.fire({
         title: "Success",
         text: "Logged In Successfully",
         icon: "success",
         confirmButtonText: "OK",
       }).then(function () {
-        console.log("success");
+        console.log("postLoginRes", postLoginRes.data.token);
+        localStorage.setItem("token", postLoginRes.data.token);
+        navigate("/home");
       });
-      console.log(loginData);
-    },
-  });
+    }
+    if (postLoginIsError) {
+      Swal.fire({
+        title: "Error",
+        text: postLoginErr,
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(function () {
+        console.log("error");
+      });
+    }
+  }, [postLoginRes, postLoginIsError, postLoginErr]);
 
   return (
     <Box component="form" noValidate onSubmit={formik.handleSubmit}>
@@ -101,8 +131,7 @@ const LoginForm = () => {
         size="large"
         sx={{ mt: 3, backgroundColor: "#5e17eb" }}
       >
-        {!isProgress && "LOG IN"}
-        {isProgress && <CircularProgress />}
+        {postLoginIsLoading ? <CircularProgress /> : "LOG IN"}
       </Button>
     </Box>
   );
