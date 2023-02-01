@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import Api from "./Api";
 
 const AddLogin = async (user) => {
-  return Api.post("/login", user);
+  return Api.post("/api/user/login", user);
 };
 
 export const PostLoginData = () => {

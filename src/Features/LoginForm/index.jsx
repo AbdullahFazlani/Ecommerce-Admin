@@ -12,9 +12,11 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { PostLoginData } from "../../Api/LoginApi";
 import Api from "../../Api/Api";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [isProgress, setIsProgress] = useState(false);
+  const navigate = useNavigate();
 
   const {
     mutate: loginMutate,
@@ -51,7 +53,9 @@ const LoginForm = () => {
         icon: "success",
         confirmButtonText: "OK",
       }).then(function () {
-        console.log("success");
+        console.log("postLoginRes", postLoginRes.data.token);
+        localStorage.setItem("token", postLoginRes.data.token);
+        navigate("/home");
       });
     }
     if (postLoginIsError) {
@@ -127,8 +131,7 @@ const LoginForm = () => {
         size="large"
         sx={{ mt: 3, backgroundColor: "#5e17eb" }}
       >
-        {!isProgress && "LOG IN"}
-        {isProgress && <CircularProgress />}
+        {postLoginIsLoading ? <CircularProgress /> : "LOG IN"}
       </Button>
     </Box>
   );
