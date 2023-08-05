@@ -16,6 +16,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LogoDevIcon from "@mui/icons-material/LogoDev";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 const classNames = require("classnames");
 
 const Header = ({
@@ -39,8 +40,8 @@ const Header = ({
 
   // eslint-disable-next-line no-unused-vars
   const handleLogout = () => {
-    // removeAuth();
-    window.location.href = new URL("/auth/login").getUrl();
+    localStorage.clear();
+    navigate("/login");
   };
 
   return (
@@ -194,14 +195,18 @@ const Header = ({
               sx={{
                 width: "100%",
                 height: "56px",
-                color: "white",
+                color: window.location.pathname === "/home" ? "black" : "white",
                 "&:hover": {
                   backgroundImage:
                     "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
                   color: "black",
                 },
+                backgroundImage:
+                  window.location.pathname === "/home"
+                    ? "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)"
+                    : "",
               }}
-              //
+              onClick={() => navigate("/home")}
               startIcon={<DashboardIcon />}
             >
               {showMenuTitle ? "Dashboard" : ""}
@@ -210,13 +215,19 @@ const Header = ({
               sx={{
                 width: "100%",
                 height: "56px",
-                color: "white",
+                color:
+                  window.location.pathname === "/products" ? "black" : "white",
                 "&:hover": {
                   backgroundImage:
                     "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
                   color: "black",
                 },
+                backgroundImage:
+                  window.location.pathname === "/products"
+                    ? "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)"
+                    : "",
               }}
+              onClick={() => navigate("/products")}
               startIcon={<InventoryIcon />}
             >
               {showMenuTitle ? "Products" : ""}
@@ -225,13 +236,21 @@ const Header = ({
               sx={{
                 width: "100%",
                 height: "56px",
-                color: "white",
+                color:
+                  window.location.pathname === "/categories"
+                    ? "black"
+                    : "white",
                 "&:hover": {
                   backgroundImage:
                     "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
                   color: "black",
                 },
+                backgroundImage:
+                  window.location.pathname === "/categories"
+                    ? "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)"
+                    : "",
               }}
+              onClick={() => navigate("/categories")}
               startIcon={<CategoryIcon />}
             >
               {showMenuTitle ? "Category" : ""}
@@ -240,17 +259,44 @@ const Header = ({
               sx={{
                 width: "100%",
                 height: "56px",
-                color: "white",
+                color:
+                  window.location.pathname === "/brand" ? "black" : "white",
                 "&:hover": {
                   backgroundImage:
                     "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
                   color: "black",
                 },
+                backgroundImage:
+                  window.location.pathname === "/brand"
+                    ? "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)"
+                    : "",
               }}
+              onClick={() => navigate("/brand")}
+              startIcon={<QrCodeIcon />}
+            >
+              {showMenuTitle ? "Brand" : ""}
+            </Button>
+            {/* <Button
+              sx={{
+                width: "100%",
+                height: "56px",
+                color:
+                  window.location.pathname === "/color" ? "black" : "white",
+                "&:hover": {
+                  backgroundImage:
+                    "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
+                  color: "black",
+                },
+                backgroundImage:
+                  window.location.pathname === "/color"
+                    ? "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)"
+                    : "",
+              }}
+              onClick={() => navigate("/color")}
               startIcon={<BorderColorIcon />}
             >
               {showMenuTitle ? "Colors" : ""}
-            </Button>
+            </Button> */}
             <Button
               sx={{
                 width: "100%",
@@ -278,6 +324,7 @@ const Header = ({
                 },
               }}
               startIcon={<LogoutIcon />}
+              onClick={handleLogout}
             >
               {showMenuTitle ? "logout" : ""}
             </Button>
