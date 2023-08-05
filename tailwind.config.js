@@ -29,7 +29,7 @@ module.exports = {
         "theme-background-form": "#F3F6F9",
         "theme-menu-button":
           "linear-gradient(134.47deg, #FFFFFF -26.79%, #D0BEC0 230.75%)",
-
+        "theme-main": "#5e17eb",
         // ==== from dermiss web app - for buttons etc will remove extra while cleaning the themes
         "theme-main-blue": "#0071EB",
         "theme-gray": "#3C3C3C",
